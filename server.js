@@ -1,6 +1,9 @@
 'use strict';
 
 const express = require('express');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const helmet = require('helmet');
 // class화 해서 express 사용하기
 // singleton pattern
 const http = require('http');
@@ -17,7 +20,23 @@ class ApiServer extends http.Server {
   }
 
   async start() {
+    this.app.use(helmet()); // express 보안설정을 담당한다
+    this.app.use(cookieParser());
+    this.app.use(bodyParser());
 
+    this.app.use((err, req, res, next) => { // err:에러 처리, req, res, next:다음으로 넘어감
+
+      // 모든 과정을 logging 하고 싶다
+      // err, req, res 모두 log를 남기고 싶다
+      console.error(`Internal error`, err);
+      if (req) { // 모든 request에 대해서 로그를 남기고 싶다, req.session, req.cookie
+        console.log(req);
+      }
+      if (res) { // 모든 res에 대해서 로그를 남기고 싶다
+        console.log(res);
+      }
+      next();
+    }); // 
   }
 }
 

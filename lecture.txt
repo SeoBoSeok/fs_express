@@ -1,0 +1,2 @@
+body-parser : express에서 body를 parsing => 예를들어 body를 parsing해서 JSON데이터를 읽는다
+helmet : express의 헤더도 숨길 수 있고 기본적인 보안설정등을 설정해 줄 수있다.
